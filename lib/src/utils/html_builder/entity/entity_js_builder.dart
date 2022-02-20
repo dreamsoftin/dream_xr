@@ -1,6 +1,6 @@
 import 'package:recase/recase.dart';
 
-class EntityJsBuilder {
+class TargetJsBuilder {
   static const String _templetContent = '''
 
         const dreamTargetName = document.querySelector('#dream-target-name');

@@ -51,8 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -60,7 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
     });
   }
 
@@ -89,12 +86,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text("Hello World"),
               ),
             )),
+            WidgetTargetChild.child(
+                child: Container(
+              color: Colors.pink.withOpacity(0.5),
+              child: const Center(
+                child: Text("Hello World"),
+              ),
+            )),
             WidgetTargetChild(
+              position: const TransformPosition(0.1, -0.1),
+              scale: const TransformScale(1, 1),
               builder: (context, transformation) {
                 return CustomCube(
-                  width: transformation.size.width, //* transformation.scale.x,
+                  angleX: transformation.rotation.y,
+                  angleY: transformation.rotation.x,
+                  width: transformation.size.width, //*
+                  // transformation.scale.x, //transformation.size.width transformation.scale.x,
                   height:
                       transformation.size.height, //* transformation.scale.y,
+                  // transformation.size.height* transformation.scale.y,
                   depth: 100,
                   faceWidgets: CubeFaceWidgets(
                     topFace: (_, size) => Container(
@@ -167,15 +177,21 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ]),
-          ImageTarget(targetIndex: 1, children: [
-            WidgetTargetChild.child(
-                child: Container(
-              color: Colors.purple,
-              child: const Center(
-                child: Text("Hello World Index 2"),
+          ImageTarget(
+              targetIndex: 1,
+              position: const TransformPosition(
+                0,
+                0,
               ),
-            )),
-          ]),
+              children: [
+                WidgetTargetChild.child(
+                    child: Container(
+                  color: Colors.purple,
+                  child: const Center(
+                    child: Text("Hello World Index 2"),
+                  ),
+                )),
+              ]),
         ],
       ),
       floatingActionButton: FloatingActionButton(

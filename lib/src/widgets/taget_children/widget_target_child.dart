@@ -4,24 +4,57 @@ import 'package:flutter/cupertino.dart';
 class WidgetTargetChild extends TargetChild {
   @override
   late final String id;
-
-  final Offset offset;
+  @override
+  final TransformPosition position;
+  @override
+  final TransformRotation rotation;
+  @override
+  final TransformScale scale;
   final Widget Function(BuildContext context, ARTransformation transformation)
       builder;
   WidgetTargetChild({
     required this.builder,
-    this.offset = Offset.zero,
+    this.position = const TransformPosition(
+      0,
+      0,
+    ),
+    this.rotation = const TransformRotation(
+      0,
+      0,
+      0,
+    ),
+    this.scale = const TransformScale(
+      1,
+      1,
+    ),
   }) {
     id = generateRandomString(10);
   }
 
   factory WidgetTargetChild.child({
     required Widget child,
-    Offset offset = Offset.zero,
+    TransformPosition position = const TransformPosition(
+      0,
+      0,
+    ),
+    TransformRotation rotation = const TransformRotation(
+      0,
+      0,
+      0,
+    ),
+    TransformScale scale = const TransformScale(
+      1,
+      1,
+    ),
   }) {
     return WidgetTargetChild(
       builder: (context, _) => child,
-      offset: offset,
+      position: position,
+      rotation: rotation,
+      scale: scale,
     );
   }
+
+  @override
+  ChildType get type => ChildType.widget;
 }

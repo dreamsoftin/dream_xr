@@ -14,6 +14,9 @@ class CustomCube extends StatelessWidget {
     required this.depth,
     required this.faceWidgets,
     this.depthOffset = 0,
+    this.angleX = 0.0,
+    this.angleY = 0.0,
+
     // this.offsetX = 0,
     // this.offsetY = 0,
     this.onTap,
@@ -23,6 +26,8 @@ class CustomCube extends StatelessWidget {
   final double width;
   final double height;
   final double depth;
+  final double angleY;
+  final double angleX;
   // final double offsetX;
   // final double offsetY;
   final double depthOffset;
@@ -100,18 +105,15 @@ class CustomCube extends StatelessWidget {
           child: faceWidgets.topFace),
     ];
     // return DepthBuilder(builder: (context, offset) {
-    const angleY = (0) * 0.01;
-    const angleX = 0 * -0.01;
+
     final cameraMatrix = vector.Matrix4.identity()
       // ..translate(width, height, 0)
       ..multiply(vector.Matrix4.identity()
-            ..setEntry(3, 2, perspective)
-            ..rotateX(angleY)
-            ..rotateY(angleX)
-          );
+        ..setEntry(3, 2, perspective)
+        ..rotateX(angleY)
+        ..rotateY(angleX));
     List<int> sortedKeys = createZOrder(faces, cameraMatrix);
     List<CubeFace> sortedFaces = [];
-
 
     for (var i in sortedKeys.reversed.toList()) {
       sortedFaces.insert(0, faces[i]);

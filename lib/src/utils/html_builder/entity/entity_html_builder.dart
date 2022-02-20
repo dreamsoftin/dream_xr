@@ -1,4 +1,4 @@
-import 'package:dream_xr/src/utils/html_builder/component/component_html_builder.dart';
+import 'package:dream_xr/dream_xr.dart';
 
 ///
 ///
@@ -12,24 +12,34 @@ import 'package:dream_xr/src/utils/html_builder/component/component_html_builder
 ///
 ///
 ///
-class EntityHTMLBuilder {
+class TargetHTMLBuilder {
   static const String _targetIndex = "{{index}}";
+  static const String _position = "{{position}}";
+  static const String _scale = "{{scale}}";
+  static const String _rotation = "{{rotation}}";
+  static const String _id = "{{target-name}}";
   static const String _templetContent = '''
-      <a-entity id="dream-target-name" mindar-image-target="targetIndex: $_targetIndex" position="0 0 0">
+      <a-entity id="$_id" mindar-image-target="targetIndex: $_targetIndex" position="0 0 0" material="opacity: 0.0; transparent: true">
 ''';
 
   static const String _templetEnd = '''
 </a-entity>
 ''';
 
-  String construct(
-      int targetIndex, String targetName, List<String> componentNames) {
+  String construct(ImageTarget target) {
     ComponentHTMLBuilder componentHTMLBuilder = ComponentHTMLBuilder();
+    TransformPosition position = target.position;
+    TransformRotation rotation = target.rotation;
+    TransformScale scale = target.scale;
     String content = _templetContent
-        .replaceAll("dream-target-name", targetName)
-        .replaceAll(_targetIndex, "$targetIndex");
+            .replaceAll(_id, target.targetName)
+            .replaceAll(_targetIndex, "${target.targetIndex}")
+        // .replaceAll(_position, "${position.x} ${position.y} 0")
+        // .replaceAll(_rotation, "${rotation.x} ${rotation.y} ${rotation.z}")
+        // .replaceAll(_scale, "${scale.x} ${scale.y} 0")
+        ;
 
-    for (var compnent in componentNames) {
+    for (var compnent in target.children) {
       content += componentHTMLBuilder.construct(compnent);
     }
     content += _templetEnd;

@@ -90,8 +90,8 @@ class HtmlPageBuilder {
 ''';
 
   String construct(List<ImageTarget> targets) {
-    EntityHTMLBuilder entityHTMLBuilder = EntityHTMLBuilder();
-    EntityJsBuilder entityJsBuilder = EntityJsBuilder();
+    TargetHTMLBuilder entityHTMLBuilder = TargetHTMLBuilder();
+    TargetJsBuilder entityJsBuilder = TargetJsBuilder();
 
     ComponentJsBuilder componentJsBuilder = ComponentJsBuilder();
     // List<String> componentNames = ["dream-component"];
@@ -110,7 +110,7 @@ class HtmlPageBuilder {
         componentNames.add(component.id);
       }
 
-      htmlDom += entityHTMLBuilder.construct(target.targetIndex,target.targetName, componentNames);
+      htmlDom += entityHTMLBuilder.construct(target);
     }
 
     return _templetPage

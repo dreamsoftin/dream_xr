@@ -179,6 +179,7 @@ class _ImageARWidgetState extends State<ImageARWidget> {
   bool isVisible = false;
 
   void onMessage(String? message) {
+    // log(message ?? "");
     var jsonDecode2 = jsonDecode(message ?? "{}");
     if (jsonDecode2["event"] == "target_found") {
       _targets[jsonDecode2["target"]]?.onMarkerFound();

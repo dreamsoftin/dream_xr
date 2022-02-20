@@ -24,17 +24,17 @@ class ArTransformMessage {
 
   factory ArTransformMessage.fromMap(Map<String, dynamic> json) =>
       ArTransformMessage(
-          position: json["position"] == null
-              ? null
-              : _Position.fromMap(json["position"]),
-          rotation: json["rotation"] == null
-              ? null
-              : _Rotation.fromMap(json["rotation"]),
-          scale:
-              json["scale"] == null ? null : _Position.fromMap(json["scale"]),
-          vector:
-              json["vector"] == null ? null : _Position.fromMap(json["vector"]),
-          component: json["component"]);
+        position: json["position"] == null
+            ? null
+            : _Position.fromMap(json["position"]),
+        rotation: json["rotation"] == null
+            ? null
+            : _Rotation.fromMap(json["rotation"]),
+        scale: json["scale"] == null ? null : _Position.fromMap(json["scale"]),
+        vector:
+            json["vector"] == null ? null : _Position.fromMap(json["vector"]),
+        component: json["component"],
+      );
 }
 
 class _Position {
@@ -72,6 +72,6 @@ class _Rotation {
         x: json["_x"]?.toDouble(),
         y: json["_y"]?.toDouble(),
         z: json["_z"]?.toDouble(),
-        w: json["_w"]?.toDouble(),
+        w:0.0
       );
 }
