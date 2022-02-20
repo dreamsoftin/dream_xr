@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+      <html lang="en">
+      
+      <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>WebMessageChannel Test</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+          <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+      
+      </head>
+      
+      <body>
+       
+          <script>
+              // variable that will represents the port used to communicate with the Dart side
+              var port;
+      
+              function toScreenPosition(obj, camera) {
+                  var vector = new THREE.Vector3();
+      
+                  var widthHalf = 0.5 * window.innerWidth;
+                  var heightHalf = 0.5 * window.innerHeight;
+      
+                  obj.updateMatrixWorld();
+                  vector.setFromMatrixPosition(obj.matrixWorld);
+                  vector.project(camera);
+      
+                  vector.x = (vector.x * widthHalf) + widthHalf;
+                  vector.y = - (vector.y * heightHalf) + heightHalf;
+      
+                  return {
+                      x: vector.x,
+                      y: vector.y
+                  };
+      
+              };
+      
+              // listen for messages
+              window.addEventListener('message', function (event) {
+                  if (event.data == 'capturePort') {
+                     console.log('capturePort Called');
+                      // capture port2 coming from the Dart side
+                      if (event.ports[0] != null) {
+                          // the port is ready for communication,
+                          // so you can use port.postMessage(message); wherever you want
+                          port = event.ports[0];
+                          console.log('capturePort Recieved Port');
+                          // To listen to messages coming from the Dart side, set the onmessage event listener
+                          port.onmessage = function (event) {
+                              // event.data contains the message data coming from the Dart side 
+                              console.log(event.data);
+                          };
+                      }
+                  }
+              }, false);
+      
+      
+             
+              AFRAME.registerComponent('niqCGQWNHJ', {
+                  init: function () {
+                      this.worldpos = new THREE.Vector3();
+                      this.rotation = new THREE.Quaternion();
+                      this.worldScale = new THREE.Vector3();
+      
+                  },
+                  tick: function (t) {
+                      var data = this.data;
+                      this.el.getObject3D("mesh").getWorldPosition(this.worldpos);
+                      this.el.getObject3D("mesh").getWorldQuaternion(this.rotation);
+                      this.el.getObject3D("mesh").getWorldScale(this.worldScale);
+      
+                      var camera = document.querySelector('a-scene').camera;
+                      var worldMateix = this.el.getObject3D("mesh").matrixWorld;
+                      var eular = new THREE.Euler().setFromQuaternion(this.rotation);
+      
+                  
+                      var vector = toScreenPosition(this.el.getObject3D("mesh"), camera);
+                     
+                      var jsondata = 
+                      {
+                          "position": this.worldpos,
+                          "rotation": eular, 
+                          "scale": this.worldScale,
+                          "vector": vector,
+                          "component":'niqCGQWNHJ'
+                      };
+                      if (port !== undefined) {
+      
+                          port.postMessage(JSON.stringify(jsondata));
+                      }
+      
+                  },
+              });
+      
+      
+      
+              document.addEventListener("DOMContentLoaded", function () {
+                  const sceneEl = document.querySelector('a-scene');
+      
+                  
+              const lNTtCDXboj = document.querySelector('#LNTtCDXboj');
+      
+              lNTtCDXboj.addEventListener("targetFound", event => {
+                 var jsondata = {
+                     "target":"LNTtCDXboj",
+                     "event":"target_found"
+                 }
+                 port.postMessage(JSON.stringify(jsondata));
+              });
+      
+              
+              lNTtCDXboj.addEventListener("targetLost", event => {
+                  var jsondata = {
+                      "target":"LNTtCDXboj",
+                      "event":"target_lost"
+                  }
+                  port.postMessage(JSON.stringify(jsondata));
+              });
+      
+      
+      
+      
+              });
+      
+          </script>
+          <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false"
+              device-orientation-permission-ui="enabled: false">
+              <a-camera position="0 0 0" look-controls="enabled: false" raycaster="far: 1.1.4; objects: .clickable">
+              </a-camera>
+                        <a-entity id="LNTtCDXboj" mindar-image-target="targetIndex: 0" position="0 0 0">
+             <a-plane id="example-plane" class="clickable" color="transparent" opaciy="0.5" position="0 0 0" height="1"
+                      width="1" rotation="0 0 0" niqCGQWNHJ></a-plane>
+      </a-entity>
+      
+              </a-entity>
+          </a-scene>
+      </body>
+      </html>
