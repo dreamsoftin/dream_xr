@@ -3,16 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dream_xr/dream_xr.dart';
-import 'package:dream_xr/src/models/ar_transform_message.dart';
-import 'package:dream_xr/src/models/models.dart';
-import 'package:dream_xr/src/utils/html_builder/html_builder.dart';
-import 'package:dream_xr/src/widgets/taget_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'image_target.dart';
 
 class ImageARWidget extends StatefulWidget {
   const ImageARWidget({
@@ -74,10 +68,8 @@ class _ImageARWidgetState extends State<ImageARWidget> {
           children: [
             InAppWebView(
               initialData: InAppWebViewInitialData(
-                  data: htmlContent,
-                  baseUrl: Uri.http("localhost:8080", "")),
+                  data: htmlContent, baseUrl: Uri.http("localhost:8080", "")),
               onWebViewCreated: (controller) {},
-
               androidShouldInterceptRequest: (controller, request) async {
                 log("androidShouldInterceptRequest: " + request.url.toString());
                 if (request.url.toString().endsWith("targets.mind")) {
@@ -90,7 +82,6 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                 }
                 return null;
               },
-
               shouldInterceptFetchRequest: (controller, fetchRequest) async {
                 log("shouldInterceptFetchRequest: " +
                     fetchRequest.url.toString());
@@ -110,7 +101,6 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                   keepalive: fetchRequest.keepalive,
                 );
               },
-
               onLoadResourceCustomScheme:
                   (InAppWebViewController controller, Uri url) async {
                 log("onLoadResourceCustomScheme: " + url.toString());
@@ -177,11 +167,9 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                 log("******** ${resource.url}");
               },
             ),
-
             for (var item in widget.tagets) ...{
               ImageTagetBuilder(imageTarget: item),
             }
-          
           ],
         );
       },
@@ -189,8 +177,6 @@ class _ImageARWidgetState extends State<ImageARWidget> {
   }
 
   bool isVisible = false;
-
-
 
   void onMessage(String? message) {
     var jsonDecode2 = jsonDecode(message ?? "{}");
@@ -203,7 +189,6 @@ class _ImageARWidgetState extends State<ImageARWidget> {
       ArTransformMessage transform = ArTransformMessage.fromJson(message);
       _targetChild[transform.component]
           ?.handleTransformation(transform, windowWidth, windowHeight);
-
     }
   }
 }

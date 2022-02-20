@@ -1,6 +1,8 @@
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/material.dart';
 
+import 'cube.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -49,7 +51,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+
 
   void _incrementCounter() {
     setState(() {
@@ -58,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+
     });
   }
 
@@ -80,14 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
         targetDB: TargetDB.asset("assets/targets.mind"),
         tagets: [
           ImageTarget(targetIndex: 0, children: [
-            FlutterWidgetTargetChild.child(
+            WidgetTargetChild.child(
                 child: Container(
               color: Colors.amber,
               child: const Center(
                 child: Text("Hello World"),
               ),
             )),
-            FlutterWidgetTargetChild(
+            WidgetTargetChild(
               builder: (context, transformation) {
                 return CustomCube(
                   width: transformation.size.width, //* transformation.scale.x,
@@ -166,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ]),
           ImageTarget(targetIndex: 1, children: [
-            FlutterWidgetTargetChild.child(
+            WidgetTargetChild.child(
                 child: Container(
               color: Colors.purple,
               child: const Center(

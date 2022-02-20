@@ -16,7 +16,7 @@ class ImageTagetBuilder extends StatelessWidget {
                 (BuildContext context, ARTransformation? value, Widget? child) {
               if (value == null) return Container();
 
-              if (item is FlutterWidgetTargetChild) {
+              if (item is WidgetTargetChild) {
                 return Transform(
                   alignment: Alignment.topLeft,
                   transform: value.matrix,

@@ -100,59 +100,54 @@ class CustomCube extends StatelessWidget {
           child: faceWidgets.topFace),
     ];
     // return DepthBuilder(builder: (context, offset) {
-      final angleY = (0) * 0.01;
-      final angleX = 0 * -0.01;
-      final cameraMatrix = vector.Matrix4.identity()
-        // ..translate(width, height, 0)
-        ..multiply(vector.Matrix4.identity()
-              ..setEntry(3, 2, perspective)
-              ..rotateX(angleY)
-              ..rotateY(angleX)
-            // ..translate(0.0, 0.0, depthOffset // depth / 2,
-            //     ) //-(d/2) *16 TODO: Touch here for depth correction.
-            );
-      List<int> sortedKeys = createZOrder(faces, cameraMatrix);
-      List<CubeFace> sortedFaces = [];
+    const angleY = (0) * 0.01;
+    const angleX = 0 * -0.01;
+    final cameraMatrix = vector.Matrix4.identity()
+      // ..translate(width, height, 0)
+      ..multiply(vector.Matrix4.identity()
+            ..setEntry(3, 2, perspective)
+            ..rotateX(angleY)
+            ..rotateY(angleX)
+          );
+    List<int> sortedKeys = createZOrder(faces, cameraMatrix);
+    List<CubeFace> sortedFaces = [];
 
-      ///
-      /// Draw Only 3 Visible Faces.
-      ///
-      for (var i in sortedKeys.reversed.toList()) {
-        sortedFaces.insert(0, faces[i]);
-      }
-      return Stack(
-          // clipBehavior: Clip.none,
-          children: sortedFaces.map((e) {
-        final finalMatrix = cameraMatrix.multiplied(e.transform);
-        final normalVector = normalVector3(
-          finalMatrix.transformed3(v1),
-          finalMatrix.transformed3(v2),
-          finalMatrix.transformed3(v3),
-        ).normalized();
-        final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
 
-        return Transform(
-          transform: Matrix4.fromFloat64List(
-              Float64List.fromList(e.transform.storage)),
+    for (var i in sortedKeys.reversed.toList()) {
+      sortedFaces.insert(0, faces[i]);
+    }
+    return Stack(
+        children: sortedFaces.map((e) {
+      final finalMatrix = cameraMatrix.multiplied(e.transform);
+      final normalVector = normalVector3(
+        finalMatrix.transformed3(v1),
+        finalMatrix.transformed3(v2),
+        finalMatrix.transformed3(v3),
+      ).normalized();
+      final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
 
-          // color: e.color,
-          child: SizedBox(
-            width: e.width,
-            height: e.height,
-            child: Stack(
-              children: [
-                e.child.call(context, Size(e.width, e.height)),
-                Container(
-                  color: Colors.black.withOpacity(
-                    (0.5 - (directionBrightness * 0.5)),
-                  ),
-                  child: const Center(),
-                )
-              ],
-            ),
+      return Transform(
+        transform:
+            Matrix4.fromFloat64List(Float64List.fromList(e.transform.storage)),
+
+        // color: e.color,
+        child: SizedBox(
+          width: e.width,
+          height: e.height,
+          child: Stack(
+            children: [
+              e.child.call(context, Size(e.width, e.height)),
+              Container(
+                color: Colors.black.withOpacity(
+                  (0.5 - (directionBrightness * 0.5)),
+                ),
+                child: const Center(),
+              )
+            ],
           ),
-        );
-      }).toList());
+        ),
+      );
+    }).toList());
     // });
   }
 

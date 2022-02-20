@@ -1,8 +1,5 @@
 import 'package:dream_xr/dream_xr.dart';
-import 'package:dream_xr/src/utils/extension/extension.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'target_child.dart';
 
 class ImageTarget {
   final int targetIndex;
