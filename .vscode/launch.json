@@ -18,6 +18,18 @@
             "request": "launch",
             "type": "dart",
             "flutterMode":"profile"
+        },
+        {
+            "name": "Flutter: Attach to Device",
+            "type": "dart",
+            "program": "example/lib/main.dart",
+            "request": "attach",
+            "args":[
+                "--app-id",
+                "dev.dsi.dreamxr.example","-d", "designed-for-ipad"
+
+            ]
+            
         }
     ]
 }

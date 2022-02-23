@@ -8,7 +8,7 @@ enum ChildType {
   model,
 }
 
-abstract class TargetChild {
+abstract class TargetNode {
   String get id;
   ChildType get type;
   TransformPosition get position;

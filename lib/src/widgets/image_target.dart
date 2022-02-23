@@ -5,7 +5,7 @@ class ImageTarget {
   final int targetIndex;
   final VoidCallback? onFound;
   final VoidCallback? onLost;
-  final List<TargetChild> children;
+  final List<TargetNode> children;
   late final String targetName;
 
   final TransformPosition position;

@@ -9,7 +9,7 @@ class ComponentHTMLBuilder {
                 width="1" dream-component-name></a-plane>
 ''';
 
-  String construct(TargetChild componentName) {
+  String construct(TargetNode componentName) {
     TransformPosition position = componentName.position;
     TransformRotation rotation = componentName.rotation;
     TransformScale scale = componentName.scale;

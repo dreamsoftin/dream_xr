@@ -77,6 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ImageARWidget(
         targetDB: TargetDB.asset("assets/targets.mind"),
+        // TargetDB.network(
+        //     "https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/examples/image-tracking/assets/card-example/card.mind"), //
         tagets: [
           ImageTarget(targetIndex: 0, children: [
             WidgetTargetChild.child(

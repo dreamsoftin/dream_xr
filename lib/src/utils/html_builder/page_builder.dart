@@ -1,13 +1,10 @@
-import 'package:dream_xr/src/utils/html_builder/component/component_js_builder.dart';
-import 'package:dream_xr/src/utils/html_builder/entity/entity_html_builder.dart';
-import 'package:dream_xr/src/utils/html_builder/entity/entity_js_builder.dart';
-import 'package:dream_xr/src/widgets/image_target.dart';
+import 'package:dream_xr/dream_xr.dart';
 
 class HtmlPageBuilder {
   static const String _entityHtmlPlaceholder = "{{ENTITY_HTML_PLACEHOLDER}}";
   static const String _targetJSPlaceholder = "{{TARGET_JS_PLACEHOLDER}}";
   static const String _componentsJSPlaceholder = "{{COMPONENT_JS_PLACEHOLDER}}";
-
+  static const String _targetFile = "./targets.mind";
   static const String _templetPage = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +75,7 @@ class HtmlPageBuilder {
         });
 
     </script>
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false"
+    <a-scene mindar-image="imageTargetSrc: $_targetFile" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         <a-camera position="0 0 0" look-controls="enabled: false" raycaster="far: 1.1.4; objects: .clickable">
         </a-camera>
@@ -89,7 +86,7 @@ class HtmlPageBuilder {
 </html>
 ''';
 
-  String construct(List<ImageTarget> targets) {
+  Future<String> construct(List<ImageTarget> targets, TargetDB db) async {
     TargetHTMLBuilder entityHTMLBuilder = TargetHTMLBuilder();
     TargetJsBuilder entityJsBuilder = TargetJsBuilder();
 
@@ -125,6 +122,7 @@ class HtmlPageBuilder {
         .replaceAll(
           _entityHtmlPlaceholder,
           htmlDom,
-        );
+        )
+        .replaceAll(_targetFile, db.url);
   }
 }

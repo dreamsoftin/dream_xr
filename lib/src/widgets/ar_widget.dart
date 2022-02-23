@@ -22,18 +22,17 @@ class ImageARWidget extends StatefulWidget {
 
 class _ImageARWidgetState extends State<ImageARWidget> {
   WebMessagePort? port;
-  late final String htmlContent;
+  late String htmlContent = "";
   bool isPermissionGranted = false;
   @override
   void initState() {
-    htmlContent = HtmlPageBuilder().construct(widget.tagets);
-    log(htmlContent);
-    Permission.camera.request().then((value) async {
-      if (value == PermissionStatus.granted) {
-        isPermissionGranted = true;
-        setState(() {});
-      }
+    HtmlPageBuilder().construct(widget.tagets, widget.targetDB).then((value) {
+      setState(() {
+        htmlContent = value;
+      });
     });
+    // log(htmlContent);
+    requestPermission();
 
     for (var item in widget.tagets) {
       _targets[item.targetName] = item;
@@ -44,8 +43,16 @@ class _ImageARWidgetState extends State<ImageARWidget> {
     super.initState();
   }
 
+  Future<void> requestPermission() async {
+    final value = await Permission.camera.request();
+    if (value == PermissionStatus.granted) {
+      isPermissionGranted = true;
+      setState(() {});
+    }
+  }
+
   final Map<String, ImageTarget> _targets = {};
-  final Map<String, TargetChild> _targetChild = {};
+  final Map<String, TargetNode> _targetChild = {};
 
   late double windowWidth;
   late double windowHeight;
@@ -53,7 +60,7 @@ class _ImageARWidgetState extends State<ImageARWidget> {
   Widget build(BuildContext context) {
     if (!isPermissionGranted) {
       return Container(
-        color: Colors.blue,
+        color: const Color.fromARGB(255, 0, 140, 255),
         child: const Center(
           child: Text("Please grant camera permission"),
         ),
@@ -67,12 +74,21 @@ class _ImageARWidgetState extends State<ImageARWidget> {
           clipBehavior: Clip.none,
           children: [
             InAppWebView(
+              // initialUrlRequest:
+              //     URLRequest(url: Uri.parse("https://himalaya.dsi.dev/")),
               initialData: InAppWebViewInitialData(
-                  data: htmlContent, baseUrl: Uri.http("localhost:8080", "")),
-              onWebViewCreated: (controller) {},
+                  data: htmlContent, baseUrl: Uri.https("localhost:8080", "")),
+              onWebViewCreated: (controller) {
+                if (htmlContent.isNotEmpty) {
+                  controller.loadData(
+                      data: htmlContent,
+                      baseUrl: Uri.https("localhost:8080", ""));
+                }
+              },
               androidShouldInterceptRequest: (controller, request) async {
                 log("androidShouldInterceptRequest: " + request.url.toString());
-                if (request.url.toString().endsWith("targets.mind")) {
+                if (request.url.toString().endsWith(widget.targetDB.url) &&
+                    widget.targetDB.islocal) {
                   var bytes = await widget.targetDB.fetchFileContent();
                   var response = WebResourceResponse(
                       data: bytes,
@@ -85,9 +101,10 @@ class _ImageARWidgetState extends State<ImageARWidget> {
               shouldInterceptFetchRequest: (controller, fetchRequest) async {
                 log("shouldInterceptFetchRequest: " +
                     fetchRequest.url.toString());
+                // return null;
 
                 return FetchRequest(
-                  url: Uri.http("localhost:8080", fetchRequest.url.toString()),
+                  url: fetchRequest.url, //Uri.parse("file://" + fetchRequest.url.toString()),
                   method: fetchRequest.method,
                   headers: fetchRequest.headers,
                   body: fetchRequest.body,
@@ -105,7 +122,7 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                   (InAppWebViewController controller, Uri url) async {
                 log("onLoadResourceCustomScheme: " + url.toString());
                 if (url.scheme == "dream-xr-scheme") {
-                  var bytes = await rootBundle.load("assets/" +
+                  var bytes = await rootBundle.load(
                       url.toString().replaceFirst("dream-xr-scheme://", "", 0));
                   var response = CustomSchemeResponse(
                       data: bytes.buffer.asUint8List(),
@@ -117,13 +134,15 @@ class _ImageARWidgetState extends State<ImageARWidget> {
               },
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
+                    // userAgent: "Chrome/18.0.1025.133 Mobile Safari/535.19",
                     useShouldOverrideUrlLoading: true,
                     mediaPlaybackRequiresUserGesture: false,
                     useShouldInterceptFetchRequest: true,
                     allowFileAccessFromFileURLs: true,
                     allowUniversalAccessFromFileURLs: true,
                     javaScriptEnabled: true,
-                    resourceCustomSchemes: ["dream-xr-scheme"]),
+                    useOnLoadResource: true,
+                    resourceCustomSchemes: ["dream-xr-scheme", "file"]),
                 android: AndroidInAppWebViewOptions(
                   useHybridComposition: true,
                   useShouldInterceptRequest: true,
@@ -150,6 +169,7 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                       targetOrigin: Uri.parse("*"));
                 }
               },
+              
               onReceivedServerTrustAuthRequest: (controller, challenge) async {
                 return ServerTrustAuthResponse(
                     action: ServerTrustAuthResponseAction.PROCEED);

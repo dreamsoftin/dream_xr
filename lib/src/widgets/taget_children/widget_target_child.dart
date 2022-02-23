@@ -1,7 +1,7 @@
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/cupertino.dart';
 
-class WidgetTargetChild extends TargetChild {
+class WidgetTargetChild extends TargetNode {
   @override
   late final String id;
   @override
