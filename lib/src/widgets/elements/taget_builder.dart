@@ -22,7 +22,7 @@ class ImageTagetBuilder extends StatelessWidget {
                     Widget? child) {
                   if (value == null) return Container();
 
-                  if (item is WidgetTargetChild) {
+                  if (item is WidgetTargetNode) {
                     return Transform(
                       alignment: const Alignment(-1, -1),
                       transform: value.matrix,

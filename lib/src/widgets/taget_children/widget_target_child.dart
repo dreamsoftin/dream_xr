@@ -1,7 +1,7 @@
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/cupertino.dart';
 
-class WidgetTargetChild extends TargetNode {
+class WidgetTargetNode extends TargetNode {
   @override
   late final String id;
   @override
@@ -12,7 +12,7 @@ class WidgetTargetChild extends TargetNode {
   final TransformScale scale;
   final Widget Function(BuildContext context, ARTransformation transformation)
       builder;
-  WidgetTargetChild({
+  WidgetTargetNode({
     required this.builder,
     this.position = const TransformPosition(
       0,
@@ -31,7 +31,7 @@ class WidgetTargetChild extends TargetNode {
     id = generateRandomString(10);
   }
 
-  factory WidgetTargetChild.child({
+  factory WidgetTargetNode.child({
     required Widget child,
     TransformPosition position = const TransformPosition(
       0,
@@ -47,7 +47,7 @@ class WidgetTargetChild extends TargetNode {
       1,
     ),
   }) {
-    return WidgetTargetChild(
+    return WidgetTargetNode(
       builder: (context, _) => child,
       position: position,
       rotation: rotation,

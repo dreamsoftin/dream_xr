@@ -81,21 +81,21 @@ class _MyHomePageState extends State<MyHomePage> {
         //     "https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/examples/image-tracking/assets/card-example/card.mind"), //
         tagets: [
           ImageTarget(targetIndex: 0, children: [
-            WidgetTargetChild.child(
+            WidgetTargetNode.child(
                 child: Container(
               color: Colors.amber,
               child: const Center(
                 child: Text("Hello World"),
               ),
             )),
-            WidgetTargetChild.child(
+            WidgetTargetNode.child(
                 child: Container(
               color: Colors.pink.withOpacity(0.5),
               child: const Center(
                 child: Text("Hello World"),
               ),
             )),
-            WidgetTargetChild(
+            WidgetTargetNode(
               position: const TransformPosition(0.1, -0.1),
               scale: const TransformScale(1, 1),
               builder: (context, transformation) {
@@ -186,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 0,
               ),
               children: [
-                WidgetTargetChild.child(
+                WidgetTargetNode.child(
                     child: Container(
                   color: Colors.purple,
                   child: const Center(
