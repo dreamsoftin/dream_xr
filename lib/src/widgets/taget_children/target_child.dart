@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/material.dart';
 
@@ -42,19 +40,19 @@ abstract class TargetNode {
     var mappedTranslationY = transform.vector!.y!;
     -(windowHeight / 2) * heightScale;
 
-    log('''
+    // log('''
 
-    Received Translation : ${transform.position!.x!.toStringAsFixed(2)} X  ${transform.position!.y!.toStringAsFixed(2)} X ${transform.position!.z!.toStringAsFixed(2)}
-    Mapped Translation : ${mappedTranslationX.toStringAsFixed(2)} X  ${mappedTranslationY.toStringAsFixed(2)}
+    // Received Translation : ${transform.position!.x!.toStringAsFixed(2)} X  ${transform.position!.y!.toStringAsFixed(2)} X ${transform.position!.z!.toStringAsFixed(2)}
+    // Mapped Translation : ${mappedTranslationX.toStringAsFixed(2)} X  ${mappedTranslationY.toStringAsFixed(2)}
 
-    Received Scale : ${transform.scale!.x!.toStringAsFixed(2)} X  ${transform.scale!.y!.toStringAsFixed(2)} X ${transform.scale!.z!.toStringAsFixed(2)}
-    Mapped Scale : ${widthScale.toStringAsFixed(2)} X  ${heightScale.toStringAsFixed(2)}
+    // Received Scale : ${transform.scale!.x!.toStringAsFixed(2)} X  ${transform.scale!.y!.toStringAsFixed(2)} X ${transform.scale!.z!.toStringAsFixed(2)}
+    // Mapped Scale : ${widthScale.toStringAsFixed(2)} X  ${heightScale.toStringAsFixed(2)}
 
-    Rotation received z : ${transform.rotation!.z}
-    Rotation received y : ${transform.rotation!.y}
-    Rotation received x : ${transform.rotation!.x}
+    // Rotation received z : ${transform.rotation!.z}
+    // Rotation received y : ${transform.rotation!.y}
+    // Rotation received x : ${transform.rotation!.x}
 
-    ''');
+    // ''');
 
     transformation.value = ARTransformation(
       TransformPosition(
@@ -69,6 +67,7 @@ abstract class TargetNode {
       TransformScale(
         widthScale,
         heightScale,
+        1,
       ),
       Size(
         transform.scale!.x!,

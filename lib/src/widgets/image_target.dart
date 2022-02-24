@@ -30,6 +30,7 @@ class ImageTarget {
     this.scale = const TransformScale(
       1,
       1,
+      1,
     ),
   }) {
     targetName = generateRandomString(10);

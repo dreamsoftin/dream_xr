@@ -26,6 +26,7 @@ class WidgetTargetNode extends TargetNode {
     this.scale = const TransformScale(
       1,
       1,
+      1,
     ),
   }) {
     id = generateRandomString(10);
@@ -43,6 +44,7 @@ class WidgetTargetNode extends TargetNode {
       0,
     ),
     TransformScale scale = const TransformScale(
+      1,
       1,
       1,
     ),

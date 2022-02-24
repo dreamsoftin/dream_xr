@@ -113,11 +113,12 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                   cache: fetchRequest.cache,
                   redirect: fetchRequest.redirect,
                   referrer: fetchRequest.referrer,
-                  referrerPolicy: fetchRequest.referrerPolicy,
+                  referrerPolicy: ReferrerPolicy.NO_REFERRER, // fetchRequest.referrerPolicy,
                   integrity: fetchRequest.integrity,
                   keepalive: fetchRequest.keepalive,
                 );
               },
+              
               onLoadResourceCustomScheme:
                   (InAppWebViewController controller, Uri url) async {
                 log("onLoadResourceCustomScheme: " + url.toString());

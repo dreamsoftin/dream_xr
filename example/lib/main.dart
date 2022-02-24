@@ -1,8 +1,6 @@
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/material.dart';
 
-import 'cube.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -76,18 +74,18 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ImageARWidget(
-        targetDB: TargetDB.asset("assets/targets.mind"),
+        targetDB: TargetDB.network("https://puzzlehack.b-cdn.net/targets.mind"),
         // TargetDB.network(
         //     "https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/examples/image-tracking/assets/card-example/card.mind"), //
         tagets: [
           ImageTarget(targetIndex: 0, children: [
-            WidgetTargetNode.child(
-                child: Container(
-              color: Colors.amber,
-              child: const Center(
-                child: Text("Hello World"),
-              ),
-            )),
+            // WidgetTargetNode.child(
+            //     child: Container(
+            //   color: Colors.amber,
+            //   child: const Center(
+            //     child: Text("Hello World"),
+            //   ),
+            // )),
             WidgetTargetNode.child(
                 child: Container(
               color: Colors.pink.withOpacity(0.5),
@@ -95,89 +93,94 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text("Hello World"),
               ),
             )),
-            WidgetTargetNode(
-              position: const TransformPosition(0.1, -0.1),
-              scale: const TransformScale(1, 1),
-              builder: (context, transformation) {
-                return CustomCube(
-                  angleX: transformation.rotation.y,
-                  angleY: transformation.rotation.x,
-                  width: transformation.size.width, //*
-                  // transformation.scale.x, //transformation.size.width transformation.scale.x,
-                  height:
-                      transformation.size.height, //* transformation.scale.y,
-                  // transformation.size.height* transformation.scale.y,
-                  depth: 100,
-                  faceWidgets: CubeFaceWidgets(
-                    topFace: (_, size) => Container(
-                      //width: size.width,
-                      //height: size.height,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.yellow,
-                        Colors.green,
-                      ])),
-                      child: const Center(
-                        child: Text("Hello World"),
-                      ),
-                    ),
-                    leftFace: (_, size) => Container(
-                      //width: size.width,
-                      //height: size.height,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Colors.blue,
-                        Colors.yellow,
-                        Colors.green,
-                      ])),
-                      child: const Center(
-                        child: Text("Hello World"),
-                      ),
-                    ),
-                    rightFace: (_, size) => Container(
-                      //width: size.width,
-                      //height: size.height,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.pink,
-                        Colors.green,
-                      ])),
-                      child: const Center(
-                        child: Text("Hello World"),
-                      ),
-                    ),
-                    upFace: (_, size) => Container(
-                      //width: size.width,
-                      //height: size.height,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Colors.red,
-                        Colors.yellow,
-                        Colors.cyan,
-                      ])),
-                      child: const Center(
-                        child: Text("Hello World"),
-                      ),
-                    ),
-                    downFace: (_, size) => Container(
-                      //width: size.width,
-                      //height: size.height,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Colors.purple,
-                        Colors.yellow,
-                        Colors.green,
-                      ])),
-                      child: const Center(
-                        child: Text("Hello World"),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+            // WidgetTargetNode(
+            //   position: const TransformPosition(0.1, -0.1),
+            //   // scale: const TransformScale(1, 1),
+            //   builder: (context, transformation) {
+            //     return CustomCube(
+            //       angleX: transformation.rotation.y,
+            //       angleY: transformation.rotation.x,
+            //       width: transformation.size.width, //*
+            //       // transformation.scale.x, //transformation.size.width transformation.scale.x,
+            //       height:
+            //           transformation.size.height, //* transformation.scale.y,
+            //       // transformation.size.height* transformation.scale.y,
+            //       depth: 100,
+            //       faceWidgets: CubeFaceWidgets(
+            //         topFace: (_, size) => Container(
+            //           //width: size.width,
+            //           //height: size.height,
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //             Colors.red,
+            //             Colors.yellow,
+            //             Colors.green,
+            //           ])),
+            //           child: const Center(
+            //             child: Text("Hello World"),
+            //           ),
+            //         ),
+            //         leftFace: (_, size) => Container(
+            //           //width: size.width,
+            //           //height: size.height,
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //             Colors.blue,
+            //             Colors.yellow,
+            //             Colors.green,
+            //           ])),
+            //           child: const Center(
+            //             child: Text("Hello World"),
+            //           ),
+            //         ),
+            //         rightFace: (_, size) => Container(
+            //           //width: size.width,
+            //           //height: size.height,
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //             Colors.red,
+            //             Colors.pink,
+            //             Colors.green,
+            //           ])),
+            //           child: const Center(
+            //             child: Text("Hello World"),
+            //           ),
+            //         ),
+            //         upFace: (_, size) => Container(
+            //           //width: size.width,
+            //           //height: size.height,
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //             Colors.red,
+            //             Colors.yellow,
+            //             Colors.cyan,
+            //           ])),
+            //           child: const Center(
+            //             child: Text("Hello World"),
+            //           ),
+            //         ),
+            //         downFace: (_, size) => Container(
+            //           //width: size.width,
+            //           //height: size.height,
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //             Colors.purple,
+            //             Colors.yellow,
+            //             Colors.green,
+            //           ])),
+            //           child: const Center(
+            //             child: Text("Hello World"),
+            //           ),
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            ModelTargetNode(
+                modelUrl: "https://puzzlehack.b-cdn.net/cube_grassland.glb",
+                position: const TransformPosition(0.5, -0.5),
+                scale: const TransformScale(0.4, 0.4, 0.4),
+                rotation: const TransformRotation(90, 0, 0)),
           ]),
           ImageTarget(
               targetIndex: 1,

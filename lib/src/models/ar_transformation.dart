@@ -31,8 +31,12 @@ class TransformPosition {
 class TransformScale {
   final double x;
   final double y;
-
-  const TransformScale(this.x, this.y);
+  final double z;
+  const TransformScale(
+    this.x,
+    this.y,
+    this.z,
+  );
 }
 
 class TransformRotation {
