@@ -143,7 +143,7 @@ class _ImageARWidgetState extends State<ImageARWidget> {
                     allowUniversalAccessFromFileURLs: true,
                     javaScriptEnabled: true,
                     useOnLoadResource: true,
-                    resourceCustomSchemes: ["dream-xr-scheme", "file"]),
+                    resourceCustomSchemes: ["dream-xr-scheme",]),
                 android: AndroidInAppWebViewOptions(
                   useHybridComposition: true,
                   useShouldInterceptRequest: true,

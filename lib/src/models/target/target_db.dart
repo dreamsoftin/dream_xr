@@ -18,7 +18,7 @@ class TargetDB {
         return bytes.buffer.asUint8List();
       },
       islocal: true,
-      url: assetPath,
+      url: "dream-xr-scheme://"+assetPath,
     );
   }
   factory TargetDB.network(String url) {
