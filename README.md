@@ -11,29 +11,73 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A simple AR Plugin which allows you to place Flutter Widget in AR. This plugin uses Mind AR to work with AR.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* Allows to Place Flutter widget on Top of target.
+* Allows to place GLB/GLTF Models.
 
-## Getting started
+#
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+<img src="https://puzzlehack.b-cdn.net/1647273449319.JPEG" alt="Puzzle Hack Example"/>
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
 
 ```dart
-const like = 'sample';
+    ImageARWidget(
+        /// Your Target File.
+        /// For this example scan any flutter logo
+        targetDB: TargetDB.network("https://puzzlehack.b-cdn.net/targets.mind"), 
+        tagets: [
+          ImageTarget(
+            targetIndex: 0,
+            children: [
+              /// Your Widget.
+              WidgetTargetNode.child(
+                child: Container(
+                  color: Colors.pink.withOpacity(0.5),
+                  child: const Center(
+                    child: Text("Hello World"),
+                  ),
+                ),
+              ),
+              /// Your Target Model.
+              ModelTargetNode(
+                  modelUrl: "https://puzzlehack.b-cdn.net/cube_grassland.glb",
+                  position: const TransformPosition(0.5, -0.5),
+                  scale: const TransformScale(0.4, 0.4, 0.4),
+                  rotation: const TransformRotation(90, 0, 0)),
+            ],
+          ),
+          /// Works with Multiple Target as well
+          ImageTarget(
+            targetIndex: 1,
+            position: const TransformPosition(
+              0,
+              0,
+            ),
+            children: [
+              WidgetTargetNode.child(
+                child: Container(
+                  color: Colors.purple,
+                  child: const Center(
+                    child: Text("Hello World Index 2"),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
 ```
 
-## Additional information
+## Limitations
+1. Models will always lies below Widget.
+2. `.asset()` works only for android. For iOS you need to use `.network()` constructor for Target DB.
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+## Things to be implemented.
+1. Support Loading asset files in iOS,
+2. Provide Dart based implementation

@@ -74,8 +74,6 @@ class _ImageARWidgetState extends State<ImageARWidget> {
           clipBehavior: Clip.none,
           children: [
             InAppWebView(
-              // initialUrlRequest:
-              //     URLRequest(url: Uri.parse("https://himalaya.dsi.dev/")),
               initialData: InAppWebViewInitialData(
                   data: htmlContent, baseUrl: Uri.https("localhost:8080", "")),
               onWebViewCreated: (controller) {
